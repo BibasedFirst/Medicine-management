@@ -21,13 +21,12 @@ public class DrugsDao {
 	}
 	
 	public static Boolean insertDrugs(Drugs d) throws Exception{
-		Boolean boolean1 = false;
 		SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		DrugsMapper  drugs = session.getMapper(DrugsMapper.class);
 		drugs.insertDrug(d);
 		session.commit();
 		session.close();
-		return boolean1;
+		return true;
 	}
 	
 	public static List<Drugs> selectDrug() throws Exception{

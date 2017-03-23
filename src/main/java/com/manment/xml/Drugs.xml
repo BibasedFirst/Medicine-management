@@ -11,4 +11,7 @@
           #{dName},#{dNumber},#{ShelfLife},#{ProductionDate},#{ValidUntil},#{BuyPrice},#{Price},#{Discount}
        )
     </insert>
+    <update id="updateDrugById" parameterType="com.manment.bean.Drugs" >
+    
+    </update>
 </mapper>

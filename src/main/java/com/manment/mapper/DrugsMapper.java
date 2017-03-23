@@ -13,6 +13,9 @@ public interface DrugsMapper {
 	//查询药品所有列表
 	public List<Drugs> selectDrug() throws Exception;
 	
+	//更新药品
+	public Boolean updateDrugById() throws Exception;
+	
 	
 }
 
