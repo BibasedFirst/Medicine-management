@@ -15,7 +15,9 @@
     </environment>
   </environments>
   <mappers>
-  <mapper resource="com/manment/Memberday.xml"/>
-  
+    <mapper resource="com/manment/xml/Drugs.xml"/>
+    <mapper resource="com/manment/xml/Memberday.xml"/>
+    <mapper resource="com/manment/xml/Shopping.xml"/>
+    <mapper resource="com/manment/xml/User.xml"/>
   </mappers> 
 </configuration>

@@ -10,14 +10,14 @@ import java.util.Date;
  */
 public class Drugs {
 	private int dID;
-	private String dName;
-	private int dNumber;
-	private int ShelfLife;
-	private Date ProductionDate;
-	private Date ValidUntil;
-	private float BuyPrice;
-	private float Price;
-	private int Discount;
+	private String dName;//药名
+	private int dNumber;//数量
+	private int ShelfLife;//保质期
+	private Date ProductionDate;//生产日期 
+	private Date ValidUntil;//过期时间
+	private float BuyPrice;//进价
+	private float Price;//售价
+	private int Discount;//会员折扣（如果98折
 
 	public Drugs(String dName, int dNumber, int shelfLife, Date productionDate, Date validUntil, float buyPrice,
 			float price, int discount) {
