@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manment.mapper.DrugsMapper">
+    <select id="selectDrug" resultType="com.manment.bean.Drugs">
+       select *from drugs
+    </select>
+    <insert id="insertDrug" parameterType="com.manment.bean.Drugs">
+       insert into drugs (dName,dNumber,ShelfLife,ProductionDate,ValidUntil,BuyPrice,Price,Discount) values (
+          #{dName},#{dNumber},#{ShelfLife},#{ProductionDate},#{ValidUntil},#{BuyPrice},#{Price},#{Discount}
+       )
+    </insert>
+</mapper>
