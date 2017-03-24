@@ -14,8 +14,16 @@ public interface DrugsMapper {
 	public List<Drugs> selectDrug() throws Exception;
 	
 	//更新药品
-	public Boolean updateDrugById() throws Exception;
+	public Boolean updateDrugById(Drugs drugs) throws Exception;
 	
+	//根据id查询药品
+	public Drugs selectDrugsById(int id) throws Exception;
+	
+	//根据id删除药品
+	public Boolean deleteDrugsById(int id) throws Exception;
+	
+	//分页查询药品
+	public List<Drugs> selectDrugsByPage(int begin) throws Exception;
 	
 }
 

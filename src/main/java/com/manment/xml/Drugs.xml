@@ -12,6 +12,20 @@
        )
     </insert>
     <update id="updateDrugById" parameterType="com.manment.bean.Drugs" >
-    
+         update drugs set dName = #{dName},dNumber=#{dNumber},ShelfLife=#{ShelfLife},
+          ProductionDate=#{ProductionDate},ValidUntil=#{ValidUntil},BuyPrice=#{BuyPrice}
+          ,Price=#{Price},Discount=#{Discount}   where dID=#{dID}
     </update>
+    
+    <select id="selectDrugsById" parameterType="int" resultType="com.manment.bean.Drugs">
+       select *from drugs where dID=#{dID}
+    </select>
+    
+    <delete id="deleteDrugsById"  parameterType="int">
+       delete from drugs where  dID=#{dID}
+    </delete>
+    
+    <select id="selectDrugsByPage" parameterType="int" resultType="com.manment.bean.Drugs">
+          select *from drugs    limit #{begin},20 
+    </select>
 </mapper>
