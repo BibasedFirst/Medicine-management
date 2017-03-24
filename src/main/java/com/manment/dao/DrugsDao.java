@@ -15,9 +15,9 @@ public class DrugsDao {
 
 	
 	public static void main(String[] args) throws Exception {
-		/*Drugs d = new Drugs("云南白药",155,15,new Date(),new Date(),15,17,98);
-		insertDrugs(d);*/
-		System.out.println(selectDrugsByPage(1));
+		Drugs d = new Drugs("云南白药",155,15,new Date(),new Date(),15,17,98);
+		insertDrugs(d);
+		/*System.out.println(selectDrugsByPage(1));*/
 	}
 	
 	public static Boolean insertDrugs(Drugs d) throws Exception{

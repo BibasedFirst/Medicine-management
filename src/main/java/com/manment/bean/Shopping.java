@@ -1,7 +1,7 @@
 package com.manment.bean;
 
 /**
- * ÏÂµ¥±í
+ * ï¿½Âµï¿½ï¿½ï¿½
  * 
  * @author admin
  *
@@ -10,8 +10,8 @@ public class Shopping {
 	private int sID;
 	private int uID;
 	private int dID;
-	private int Number;
-	private float UnitPrice;
+	private int number;
+	private float unitPrice;
 
 	public Shopping() {
 		super();
@@ -21,8 +21,8 @@ public class Shopping {
 		super();
 		this.uID = uID;
 		this.dID = dID;
-		Number = number;
-		UnitPrice = unitPrice;
+		this.number = number;
+		this.unitPrice = unitPrice;
 	}
 
 	public int getsID() {
@@ -50,25 +50,26 @@ public class Shopping {
 	}
 
 	public int getNumber() {
-		return Number;
+		return number;
 	}
 
 	public void setNumber(int number) {
-		Number = number;
+		this.number = number;
 	}
 
 	public float getUnitPrice() {
-		return UnitPrice;
+		return unitPrice;
 	}
 
 	public void setUnitPrice(float unitPrice) {
-		UnitPrice = unitPrice;
+		this.unitPrice = unitPrice;
 	}
 
 	@Override
 	public String toString() {
-		return "Shopping [sID=" + sID + ", uID=" + uID + ", dID=" + dID + ", Number=" + Number + ", UnitPrice="
-				+ UnitPrice + "]";
+		return "Shopping [sID=" + sID + ", uID=" + uID + ", dID=" + dID + ", number=" + number + ", unitPrice="
+				+ unitPrice + "]";
 	}
 
+	 
 }

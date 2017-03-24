@@ -3,31 +3,31 @@ package com.manment.bean;
 import java.util.Date;
 
 /**
- * ÕÛ¿Û±í
+ * ï¿½Û¿Û±ï¿½
  * 
  * @author admin
  *
  */
 public class Memberday {
 	private int mID;
-	private Date MemberDay;//»áÔ±ÕÛ¿ÛÈÕÆÚ
-	private int IsEnable;//ÊÇ·ñÆôÓÃ
+	private Date memberDay;//ï¿½ï¿½Ô±ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int isEnable;//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	public Memberday() {
 		super();
 	}
 
-	public Memberday(Date memberDay, int isEnable) {
-		super();
-		MemberDay = memberDay;
-		IsEnable = isEnable;
-	}
-
 	public Memberday(int mID, Date memberDay, int isEnable) {
 		super();
 		this.mID = mID;
-		MemberDay = memberDay;
-		IsEnable = isEnable;
+		this.memberDay = memberDay;
+		this.isEnable = isEnable;
+	}
+
+	public Memberday(Date memberDay, int isEnable) {
+		super();
+		this.memberDay = memberDay;
+		this.isEnable = isEnable;
 	}
 
 	public int getmID() {
@@ -39,24 +39,25 @@ public class Memberday {
 	}
 
 	public Date getMemberDay() {
-		return MemberDay;
+		return memberDay;
 	}
 
 	public void setMemberDay(Date memberDay) {
-		MemberDay = memberDay;
+		this.memberDay = memberDay;
 	}
 
 	public int getIsEnable() {
-		return IsEnable;
+		return isEnable;
 	}
 
 	public void setIsEnable(int isEnable) {
-		IsEnable = isEnable;
+		this.isEnable = isEnable;
 	}
 
 	@Override
 	public String toString() {
-		return "Memberday [mID=" + mID + ", MemberDay=" + MemberDay + ", IsEnable=" + IsEnable + "]";
+		return "Memberday [mID=" + mID + ", memberDay=" + memberDay + ", isEnable=" + isEnable + "]";
 	}
 
+	 
 }
