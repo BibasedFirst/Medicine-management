@@ -4,10 +4,14 @@ import java.util.List;
 
 /*import javax.security.auth.message.callback.PrivateKeyCallback.Request;*/
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.sound.midi.MidiDevice.Info;
+import javax.websocket.Session;
 
+import org.apache.commons.lang.ObjectUtils.Null;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.ui.Model;
 import com.manment.bean.User;
 import com.manment.dao.UserDao;
 
@@ -15,31 +19,82 @@ import com.manment.dao.UserDao;
 @RequestMapping("/user")
 public class UserController {
 	
-	@RequestMapping("/index")
+	@RequestMapping({"/index","/",""})
 	public String index(){
 		return "/user/index";
 	}
 	
-	@RequestMapping("/sign")
-	public String sign(User u) throws Exception{
-		User user = null;
+	@RequestMapping({"/forget"})
+	public String forget(){
+		return "/user/forgetPassword";
+	}
+	
+	
+	@RequestMapping({"/register"})
+	public String register(User u,HttpServletRequest request,Model model) throws Exception{
+		boolean user = true;
 		try{
-			if(u.getuName() != null)
-				user = UserDao.selectUserByLogin(u);
+			if(!UserDao.insert(u)){
+				requestInfo(model, "注册失败！请重新注册！");
+				user = false;
+			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			requestSqlError(model);
 		}
-//		if(!user.getuName().equals(null))
-//			System.out.println(user.getuID());
-		System.out.println("------------------"+user.getuID()!=null?user.getuID():null);
-		return "/user/sign";
+		if(user)
+			saveSession(request.getSession(), UserDao.selectUserByLogin(u));
+		
+		return user?"index":"/user/index";
 	}
 	
-	@RequestMapping("/findAll")
-	public String FindAll() throws Exception{
-		System.out.println(UserDao.selectUser().get(0).getuID());
+	@RequestMapping("/sign")
+	public String sign(User u,HttpServletRequest request,Model model) throws Exception{
+		removeSession(request.getSession());
+		User user = null;
+		try{
+			System.err.println(u.getuName()+","+u.getuPwd());
+			if(!(u.getuName().equals(null) && u.getuPwd().equals(null)))
+				user = UserDao.selectUserByLogin(u);
+			if(user != null)
+				saveSession(request.getSession(), UserDao.selectUserByLogin(u));
+			else{
+				requestInfo(model, "帐号或密码错误！");
+				return "/user/index";
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			requestSqlError(model);
+		}
 		return "index";
+	}
+	
+		
+	@RequestMapping("/logout")
+    public String logout(HttpServletRequest request,Model model) {
+		removeSession(request.getSession());
+		requestInfo(model,"注销成功！");
+        return "/user/index";
+    }
+	
+	
+	private void removeSession(HttpSession session){
+		session.removeAttribute("user");
+		session.invalidate();
+	}
+	
+	private void saveSession(HttpSession session,User user){
+		session.setAttribute("user", user);
+	}
+	
+	private void requestInfo(Model model,String info){
+		model.addAttribute("request", "alert('"+info+"')");
+	}
+	
+	private void requestSqlError(Model model) {
+		model.addAttribute("request", "alert('哎呀！数据库出问题了！-_-。sorry！-_-。sorry！！')");
 	}
 }
 
