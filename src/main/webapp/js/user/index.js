@@ -29,4 +29,24 @@ $(function () {
             $("#right_hand").attr("class", "initial_right_hand");
             $("#right_hand").attr("style", "right:-112px;top:-12px");
         });
+        $(".changeSubmit").click(function(){
+            var thisHtml = $(this).html();
+            $(this).html($('.submit').val());
+            $('.submit').val(thisHtml);
+            thisHtml = $('.indexForm').attr("action");
+            $('.indexForm').attr("action",$('.formUrl').val());
+            $('.formUrl').val(thisHtml);
+        })
+        
+        $(":submit").click(function(){
+        	var returned = false;
+        	$(".ipt").each(function () {
+                    if ($(this).val() == "") {
+                        alert($(this).attr("title")+"不能为空！");
+                        $(this).focus();
+                        returned = false;
+                        return returned;
+                    }else returned = true;
+                })
+        	return returned;});
     });
