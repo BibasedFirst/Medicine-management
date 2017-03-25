@@ -1,6 +1,7 @@
 package com.manment.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.manment.bean.User;
 
@@ -15,7 +16,7 @@ public interface UsersMapper {
 		public Boolean updateUserById() throws Exception;
 		
 		//用户登录
-		public User selectUserByLogin(User user) throws Exception;
+		public User selectUserByLogin(Map<String, Object> user) throws Exception;
 		
 	    public int updateByPrimaryKey(User record);
 }
