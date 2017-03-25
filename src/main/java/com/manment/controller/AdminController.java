@@ -1,5 +1,6 @@
 package com.manment.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.manment.bean.Drugs;
+import com.manment.bean.User;
 import com.manment.dao.DrugsDao;
+import com.manment.dao.UserDao;
+
+import net.sf.json.JSONArray;
 
 /**
  * 管理员
@@ -20,10 +25,30 @@ import com.manment.dao.DrugsDao;
 @RequestMapping("admin")
 public class AdminController {
 
+/*	public static void main(String[] args) throws Exception {
+		User u = new User();
+		u.setNickName("小米");
+		u.setuName("李小");
+		u.setAnswer("sa");
+		u.setFreezingTime(new Date());
+		u.setQuestion("asas");
+		u.setuPhone("313464");
+		u.setuPwd("123456");
+		u.setuType(1);
+		for(int i = 0 ; i < 100;i++){
+			UserDao.insertDrugs(u);
+		}
+		
+	}*/
+	
 	// 用户列表
 	@RequestMapping("index")
-	public String index(HttpServletRequest request) {
-
+	public String index(HttpServletRequest request) throws Exception {
+		List<User> list = null;
+		list = UserDao.selectUser();
+		String json = JSONArray.fromObject(list).toString();
+		request.setAttribute("user", json);
+        System.out.println(list);
 		return "admin/admin";
 	}
 
