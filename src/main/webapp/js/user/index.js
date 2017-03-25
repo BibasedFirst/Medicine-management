@@ -38,6 +38,7 @@ $(function () {
             $('.formUrl').val(thisHtml);
         })
         
+        //提交点击事件
         $(":submit").click(function(){
         	var returned = false;
         	$(".ipt").each(function () {
@@ -48,5 +49,18 @@ $(function () {
                         return returned;
                     }else returned = true;
                 })
-        	return returned;});
+        	return returned;
+        });
+        
+
+        //忘记密码点击事件
+        $(".forget").click(function(){
+        	if($('.uName').val() != ""){
+                $('.indexForm').attr("action",$('.forgetUrl').val());
+                $('.indexForm').submit();
+        	}else{
+        		alert($('.uName').attr("title")+"不能为空！");
+        		$('.uName').focus();
+        	}
+        })
     });

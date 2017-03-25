@@ -1,5 +1,6 @@
 package com.manment.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 /*import javax.security.auth.message.callback.PrivateKeyCallback.Request;*/
@@ -20,12 +21,27 @@ import com.manment.dao.UserDao;
 public class UserController {
 	
 	@RequestMapping({"/index","/",""})
-	public String index(){
+	public String index() throws IOException{
 		return "/user/index";
 	}
 	
 	@RequestMapping({"/forget"})
-	public String forget(){
+	public String forget(User u,HttpServletRequest request,Model model){
+		String question = null;
+		try {
+			question = UserDao.findByName(u.getuName());
+			if(question != null){
+				model.addAttribute("uName", u.getuName());
+				model.addAttribute("question", question);
+			}else{
+				requestInfo(model,"看看你的帐号是不是正确的！");
+				return "/user/index";
+			}
+				
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "/user/forgetPassword";
 	}
 	
@@ -92,7 +108,7 @@ public class UserController {
 	private void requestInfo(Model model,String info){
 		model.addAttribute("request", "alert('"+info+"')");
 	}
-	
+		
 	private void requestSqlError(Model model) {
 		model.addAttribute("request", "alert('哎呀！数据库出问题了！-_-。sorry！-_-。sorry！！')");
 	}

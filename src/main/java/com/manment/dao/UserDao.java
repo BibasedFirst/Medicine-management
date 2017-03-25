@@ -33,7 +33,6 @@ public class UserDao {
 		 Map<String, Object> val = new HashMap<String, Object>();
 		 val.put("uName", u.getuName());
 		 val.put("uPwd", u.getuPwd());
-		 System.out.println(val.get("uPwd"));
 		 User user = usersMapper.selectUserByLogin(val);
 		 session.close();
 		 return user; 
@@ -54,11 +53,12 @@ public class UserDao {
 			return false;
 		}
 	}
+	//通过ID删除用户
 	public static boolean deleteByExample(int id) throws IOException{
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
 		 try {
-			usersMapper.deleteById(id);
+			usersMapper.deleteByID(id);
 			session.commit();
 			session.close();
 			return true;
@@ -69,29 +69,62 @@ public class UserDao {
 		}
 	}
 	
-	public static User selectById(int uID) throws IOException{
-		User u= null;
-		SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
-		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
-		 try {
-			u = usersMapper.selectById(uID);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-		 
+	//通过id查询用户
+		public static User selectById(Integer uID) throws IOException{
+			User u= null;
+			SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+			 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+			 try {
+				u = usersMapper.selectById(uID);
+				session.commit();
+				session.close();
+			} catch (Exception e) {
+			 
+			}
+			return u;
 		}
-		return u;
-	}
-	//更新用户 
-    public static void updateByPrimaryKeySelective(User user) throws IOException{
-    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
-		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
-		 try {
-		    usersMapper.updateByPrimaryKey(user);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-		 
-		}
-    }
+		  //根据用户的用户名来查询该用户的问题
+	    public static String findByName(String uName) throws IOException{
+	    	String question = null;
+	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+			 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+			 try {
+				question = usersMapper.findByName(uName);
+				session.commit();
+				session.close();
+			} catch (Exception e) {
+				question = null;
+				e.printStackTrace();
+			}
+	    	return question;
+	    }
+	    
+	  //更新用户 
+	    public static void updateByPrimaryKeySelective(User user) throws IOException{
+	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+			 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+			 try {
+			    usersMapper.updateByPrimaryKey(user);
+				session.commit();
+				session.close();
+			} catch (Exception e) {
+			 
+			}
+	    }
+	    
+	    //根据用户的帐号和答案来查询用户
+	    public static String findByNameAndAnswer(Map<String, Object> u) throws IOException{
+	    	String answer = null;
+	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+			 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+			 try {
+				 answer = usersMapper.findByNameAndAnswer(u);
+				session.commit();
+				session.close();
+			} catch (Exception e) {
+			 
+			}
+	    	return answer;
+	    }
+		
 }

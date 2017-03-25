@@ -11,8 +11,8 @@
       <arg column="question" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="answer" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="freezingTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="uType" javaType="java.lang.Integer" jdbcType="BIT" />
-      <arg column="isFreezing" javaType="java.lang.Integer" jdbcType="BIT" />
+      <arg column="uType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="isFreezing" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="uPwd" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="nickName" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
@@ -46,16 +46,11 @@
 	     )
 	</insert>
 	
-	<delete id="deleteByExample" parameterType="com.manment.bean.User">
-	    delete from user where
-	      <include refid="userByID" />
-  	</delete>
-  	
   	<update id="updateByPrimaryKeySelective" parameterType="com.manment.bean.User" >
     update user
     <set >
       <if test="uphone != null" >
-        uPhone = #{uphone,jdbcType=VARCHAR},
+        uPhone = #{uPhone,jdbcType=VARCHAR},
       </if>
       <if test="question != null" >
         Question = #{question,jdbcType=VARCHAR},
@@ -64,31 +59,37 @@
         Answer = #{answer,jdbcType=VARCHAR},
       </if>
       <if test="freezingtime != null" >
-        FreezingTime = #{freezingtime,jdbcType=TIMESTAMP},
+        FreezingTime = #{freezingTime,jdbcType=TIMESTAMP},
       </if>
       <if test="utype != null" >
-        uType = #{utype,jdbcType=BIT},
+        uType = #{uType},
       </if>
       <if test="isfreezing != null" >
-        IsFreezing = #{isfreezing,jdbcType=BIT},
+        IsFreezing = #{isFreezing},
       </if>
       <if test="upwd != null" >
-        uPwd = #{upwd,jdbcType=VARCHAR},
+        uPwd = #{uPwd,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null" >
-        NickName = #{nickname,jdbcType=VARCHAR},
+        NickName = #{nickName,jdbcType=VARCHAR},
       </if>
     </set>
-    where uID = #{uid,jdbcType=INTEGER}
+    where uID = #{uID}
   </update>
   
-  	<select id="selectById" parameterType="int">
-	    select *from user where
-	      <include refid="userByID" />
+  	<select id="selectById" parameterType="java.lang.Integer" resultMap="UserMap">
+	    select *from user where uID = #{uID}
   	</select>
   	
-  	<delete id="deleteById" parameterType="int">
-	     delete from user where
-	      <include refid="userByID" />
-  	</delete>
+  	<select id="findByName" parameterType="java.lang.String" resultType="java.lang.String">
+	    select question from user where uName = #{uName,jdbcType=VARCHAR}
+  	</select>
+  	
+  	<select id="findByNameAndAnswer" parameterType="java.lang.String" resultType="java.lang.String">
+	    select answer from user where uName = #{uName} and Answer = #{answer}
+  	</select>
+  
+   <delete id="deleteByID" parameterType="INTEGER">
+    delete from user uID = #{uID}
+  </delete>
 </mapper>

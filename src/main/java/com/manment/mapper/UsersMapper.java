@@ -22,12 +22,16 @@ public interface UsersMapper {
 	    public int updateByPrimaryKey(User record);
 	    
 	    //删除用户
-	    public int deleteById(int id);
-	    
+	    public int deleteByID(Integer id);
+	       
+	  
 	    //根据用户id查询用户
-	    public User selectById(int id);
+	    public User selectById(Integer id);
 	    
-	    //更新用户 
-	    public void updateByPrimaryKeySelective(User user);
+	    //根据用户的用户名来查询
+	    public String findByName(String uName);
+	    
+	    //根据用户的帐号和答案来查询用户
+	    public String findByNameAndAnswer(Map<String, Object> user);
 	    
 }
