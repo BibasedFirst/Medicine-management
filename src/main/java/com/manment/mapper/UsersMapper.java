@@ -16,4 +16,6 @@ public interface UsersMapper {
 		
 		//用户登录
 		public User selectUserByLogin(User user) throws Exception;
+		
+	    public int updateByPrimaryKey(User record);
 }

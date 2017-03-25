@@ -14,8 +14,14 @@ import com.manment.dao.UserDao;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+	@RequestMapping("/index")
+	public String index(){
+		return "/user/index";
+	}
+	
 	@RequestMapping("/sign")
-	public String index(User u) throws Exception{
+	public String sign(User u) throws Exception{
 		User user = null;
 		try{
 			if(u.getuName() != null)

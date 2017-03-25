@@ -3,7 +3,7 @@ package com.manment.bean;
 import java.util.Date;
 
 /**
- * ÓÃ»§±í
+ * ï¿½Ã»ï¿½ï¿½ï¿½
  * @author admin
  *
  */
@@ -18,22 +18,25 @@ public class User {
   private int isFreeing;
   private String uPwd;
   private String nickName;
-public User() {
-	super();
-}
-public User(String uName, String uPhone, String question, String answer, Date freezingTime, int uType, int isFreeing,
-		String uPwd, String nickName) {
-	super();
-	this.uName = uName;
-	this.uPhone = uPhone;
-	this.question = question;
-	this.answer = answer;
-	this.freezingTime = freezingTime;
-	this.uType = uType;
-	this.isFreeing = isFreeing;
-	this.uPwd = uPwd;
-	this.nickName = nickName;
-}
+  
+  public User(int uID,String uName, String uPhone, String question, String answer, Date freezingTime, int uType, int isFreeing,
+			String uPwd, String nickName) {
+		super();
+		this.uID = uID;
+		this.uName = uName;
+		this.uPhone = uPhone;
+		this.question = question;
+		this.answer = answer;
+		this.freezingTime = freezingTime;
+		this.uType = uType;
+		this.isFreeing = isFreeing;
+		this.uPwd = uPwd;
+		this.nickName = nickName;
+	}
+  
+  public User() {
+		super();
+	}
 public int getuID() {
 	return uID;
 }

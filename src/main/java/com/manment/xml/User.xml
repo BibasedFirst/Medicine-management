@@ -2,7 +2,83 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.manment.bean.User">
-    
-    
+<mapper namespace="com.manment.mapper.UsersMapper">
+<resultMap id="UserMap" type="com.manment.bean.User">
+    <constructor>
+      <arg column="uID" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="uName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="uPhone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="Question" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="Answer" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="FreezingTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="uType" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="IsFreezing" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="uPwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="NickName" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+	
+	 <sql id = "userRow">
+		uID,uName, uPhone, Question, Answer, FreezingTime, uType, IsFreezing, uPwd, NickName
+	</sql>
+	
+	<sql id = "userNoId">
+		uName, uPhone, Question, Answer, FreezingTime,  uType, IsFreezing, uPwd, NickName
+	</sql>
+	<sql id = "userByID">
+			uID = #{uID}
+	</sql>
+	<select id="selectUser" resultType="com.manment.bean.User">
+		select 
+       		<include refid="userRow"/>
+		from user
+	</select>
+	 <select id="selectUserByLogin" resultType="com.manment.bean.User" resultMap="UserMap">
+        select 
+       		<include refid="userRow"/>
+	 	from user where uname=(#{uName}) and upwd=(#{uPwd})
+    </select>
+    <insert id="insertUser" parameterType="com.manment.bean.User">
+	     insert into user (
+	     	<include refid="userNoId"/>
+	     ) values (
+	     	#{uName}, #{uPhone}, #{Question}, #{Answer}, #{FreezingTime}, #{uType}, #{IsFreezing}, #{uPwd}, #{NickName}
+	     )
+	</insert>
+	
+	<delete id="deleteByExample" parameterType="com.manment.bean.User">
+	    delete from user 
+	      <include refid="userByID" />
+  	</delete>
+  	
+  	<update id="updateByPrimaryKeySelective" parameterType="com.manment.bean.User" >
+    update user
+    <set >
+      <if test="uphone != null" >
+        uPhone = #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        Question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        Answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="freezingtime != null" >
+        FreezingTime = #{freezingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="utype != null" >
+        uType = #{utype,jdbcType=BIT},
+      </if>
+      <if test="isfreezing != null" >
+        IsFreezing = #{isfreezing,jdbcType=BIT},
+      </if>
+      <if test="upwd != null" >
+        uPwd = #{upwd,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        NickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uID = #{uid,jdbcType=INTEGER}
+  </update>
 </mapper>
