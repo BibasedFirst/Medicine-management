@@ -14,17 +14,9 @@ import com.manment.mapper.DrugsMapper;
 import com.manment.mapper.UsersMapper;
 
 public class UserDao {
-	public static Boolean insertDrugs(User u) throws Exception{
-		SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
-		UsersMapper  user = session.getMapper(UsersMapper.class);
-		user.insertUser(u);
-		session.commit();
-		session.close();
-		return true;
-	}
+
 	
-	
-	
+	//查看所有用户
 	public static List<User> selectUser() throws Exception{
 		 List<User> list = new ArrayList<User>();
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
@@ -34,6 +26,7 @@ public class UserDao {
 		 return list; 
 	}
 	
+	//通过帐号密码来查找用户
 	public static User selectUserByLogin(User u) throws Exception{
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
@@ -42,11 +35,11 @@ public class UserDao {
 		 val.put("uPwd", u.getuPwd());
 		 System.out.println(val.get("uPwd"));
 		 User user = usersMapper.selectUserByLogin(val);
-		 session.commit();
 		 session.close();
 		 return user; 
 	}
 	
+	//保存用户
 	public static boolean insert(User user) throws Exception{
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
@@ -61,12 +54,11 @@ public class UserDao {
 			return false;
 		}
 	}
-	
 	public static boolean deleteByExample(int id) throws IOException{
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
 		 try {
-			usersMapper.deleteByExample(id);
+			usersMapper.deleteByID(id);
 			session.commit();
 			session.close();
 			return true;
