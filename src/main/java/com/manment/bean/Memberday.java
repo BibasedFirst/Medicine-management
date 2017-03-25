@@ -10,8 +10,8 @@ import java.util.Date;
  */
 public class Memberday {
 	private int mID;
-	private Date memberDay;//��Ա�ۿ�����
-	private int isEnable;//�Ƿ�����
+	private Date memberDay;//会员折扣日期
+	private int isEnable;//是否启用
 
 	public Memberday() {
 		super();

@@ -18,8 +18,9 @@ public class Drugs {
 	private float buyPrice;//进价
 	private float price;//售价
 	private int discount;//会员折扣（如果98折
+	private int prescription;//是否处方药 0否，1是处方药
 	public Drugs(String dName, int dNumber, int shelfLife, Date productionDate, Date validUntil, float buyPrice,
-			float price, int discount) {
+			float price, int discount, int prescription) {
 		super();
 		this.dName = dName;
 		this.dNumber = dNumber;
@@ -29,6 +30,7 @@ public class Drugs {
 		this.buyPrice = buyPrice;
 		this.price = price;
 		this.discount = discount;
+		this.prescription = prescription;
 	}
 	public Drugs() {
 		super();
@@ -87,10 +89,16 @@ public class Drugs {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
+	public int getPrescription() {
+		return prescription;
+	}
+	public void setPrescription(int prescription) {
+		this.prescription = prescription;
+	}
 	@Override
 	public String toString() {
 		return "Drugs [dID=" + dID + ", dName=" + dName + ", dNumber=" + dNumber + ", shelfLife=" + shelfLife
 				+ ", productionDate=" + productionDate + ", validUntil=" + validUntil + ", buyPrice=" + buyPrice
-				+ ", price=" + price + ", discount=" + discount + "]";
+				+ ", price=" + price + ", discount=" + discount + ", prescription=" + prescription + "]";
 	}
 }

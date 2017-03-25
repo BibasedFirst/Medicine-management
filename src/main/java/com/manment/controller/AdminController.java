@@ -29,7 +29,7 @@ public class AdminController {
 
 	// 药品列表
 	@RequestMapping("listdrugs")
-	public String listdrugs(HttpServletRequest request) {
+	public String listdrugs(HttpServletRequest request) throws Exception {
 		int page = Integer.parseInt(request.getParameter("page"));
 		List<Drugs> list = null;
 		try {
@@ -39,6 +39,8 @@ public class AdminController {
 		}
 		System.out.println(list);
 		request.setAttribute("list", list);
+		request.setAttribute("sum", DrugsDao.selectDrug().size());
+		request.setAttribute("page", page);
 		return "admin/listdrugs";
 	}
 	
@@ -48,6 +50,18 @@ public class AdminController {
 		int dID = Integer.parseInt(request.getParameter("id"));
 		try {
 			DrugsDao.deleteDrugsById(dID);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/listdrugs?page=1";
+	}
+	
+	//添加药品 
+	@RequestMapping("postyp")
+	public String postyp(Drugs drugs) {
+		System.out.println("添加药品"+drugs);
+		try {
+			DrugsDao.insertDrugs(drugs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
