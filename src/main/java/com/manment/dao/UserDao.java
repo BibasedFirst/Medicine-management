@@ -1,7 +1,9 @@
 package com.manment.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -20,6 +22,8 @@ public class UserDao {
 		return true;
 	}
 	
+	
+	
 	public static List<User> selectUser() throws Exception{
 		 List<User> list = new ArrayList<User>();
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
@@ -32,9 +36,29 @@ public class UserDao {
 	public static User selectUserByLogin(User u) throws Exception{
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
-		 User user = usersMapper.selectUserByLogin(u);
+		 Map<String, Object> val = new HashMap<String, Object>();
+		 val.put("uName", u.getuName());
+		 val.put("uPwd", u.getuPwd());
+		 System.out.println(val.get("uPwd"));
+		 User user = usersMapper.selectUserByLogin(val);
+		 session.commit();
 		 session.close();
 		 return user; 
+	}
+	
+	public static boolean insert(User user) throws Exception{
+		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+		 try {
+			usersMapper.insertUser(user);
+			session.commit();
+			session.close();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }
