@@ -8,18 +8,18 @@ import java.util.Date;
  *
  */
 public class User {
-  private int uID;
+  private Integer uID;
   private String uName;
   private String uPhone;
   private String question;
   private String answer;
   private Date freezingTime;
-  private int uType;
-  private int isFreeing;
-  private String uPwd;
+  private Integer uType;
+  private Integer isFreezing;
+private String uPwd;
   private String nickName;
   
-  public User(int uID,String uName, String uPhone, String question, String answer, Date freezingTime, int uType, int isFreeing,
+  public User(Integer uID,String uName, String uPhone, String question, String answer, Date freezingTime, Integer uType, Integer isFreezing,
 			String uPwd, String nickName) {
 		super();
 		this.uID = uID;
@@ -29,7 +29,7 @@ public class User {
 		this.answer = answer;
 		this.freezingTime = freezingTime;
 		this.uType = uType;
-		this.isFreeing = isFreeing;
+		this.isFreezing = isFreezing;
 		this.uPwd = uPwd;
 		this.nickName = nickName;
 	}
@@ -37,10 +37,10 @@ public class User {
   public User() {
 		super();
 	}
-public int getuID() {
+public Integer getuID() {
 	return uID;
 }
-public void setuID(int uID) {
+public void setuID(Integer uID) {
 	this.uID = uID;
 }
 public String getuName() {
@@ -73,17 +73,11 @@ public Date getFreezingTime() {
 public void setFreezingTime(Date freezingTime) {
 	this.freezingTime = freezingTime;
 }
-public int getuType() {
+public Integer getuType() {
 	return uType;
 }
-public void setuType(int uType) {
+public void setuType(Integer uType) {
 	this.uType = uType;
-}
-public int getIsFreeing() {
-	return isFreeing;
-}
-public void setIsFreeing(int isFreeing) {
-	this.isFreeing = isFreeing;
 }
 public String getuPwd() {
 	return uPwd;
@@ -97,10 +91,18 @@ public String getNickName() {
 public void setNickName(String nickName) {
 	this.nickName = nickName;
 }
+
+public Integer getIsFreezing() {
+	return isFreezing;
+}
+
+public void setIsFreezing(Integer isFreezing) {
+	this.isFreezing = isFreezing;
+}
 @Override
 public String toString() {
 	return "User [uID=" + uID + ", uName=" + uName + ", uPhone=" + uPhone + ", question=" + question + ", answer="
-			+ answer + ", freezingTime=" + freezingTime + ", uType=" + uType + ", isFreeing=" + isFreeing + ", uPwd="
+			+ answer + ", freezingTime=" + freezingTime + ", uType=" + uType + ", isFreeing=" + isFreezing + ", uPwd="
 			+ uPwd + ", nickName=" + nickName + "]";
 }
   
