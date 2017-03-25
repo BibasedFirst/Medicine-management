@@ -7,14 +7,14 @@
        select *from drugs
     </select>
     <insert id="insertDrug" parameterType="com.manment.bean.Drugs">
-       insert into drugs (dName,dNumber,ShelfLife,ProductionDate,ValidUntil,BuyPrice,Price,Discount) values (
-          #{dName},#{dNumber},#{shelfLife},#{productionDate},#{validUntil},#{buyPrice},#{price},#{discount}
+       insert into drugs (dName,dNumber,ShelfLife,ProductionDate,ValidUntil,BuyPrice,Price,Discount,Prescription) values (
+          #{dName},#{dNumber},#{shelfLife},#{productionDate},#{validUntil},#{buyPrice},#{price},#{discount},#{prescription}
        )
     </insert>
     <update id="updateDrugById" parameterType="com.manment.bean.Drugs" >
          update drugs set dName = #{dName},dNumber=#{dNumber},ShelfLife=#{shelfLife},
           ProductionDate=#{productionDate},ValidUntil=#{validUntil},BuyPrice=#{buyPrice}
-          ,Price=#{price},Discount=#{discount}   where dID=#{dID}
+          ,Price=#{price},Discount=#{discount},Prescription=#{prescription}  where dID=#{dID}
     </update>
     
     <select id="selectDrugsById" parameterType="int" resultType="com.manment.bean.Drugs">
