@@ -1,5 +1,6 @@
 package com.manment.dao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,35 @@ public class UserDao {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public static boolean deleteByExample(int id) throws IOException{
+		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+		 try {
+			usersMapper.deleteByExample(id);
+			session.commit();
+			session.close();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static User selectById(int uID) throws IOException{
+		User u= null;
+		SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+		 try {
+			u = usersMapper.selectById(uID);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+		 
+		}
+		return u;
 	}
 	
 }

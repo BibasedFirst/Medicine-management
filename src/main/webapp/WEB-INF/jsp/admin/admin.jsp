@@ -31,7 +31,7 @@
 <!--  用户列表 -->
 <div class="container" style=" padding-top: 5%">
 
-		    	会员信息
+		    	会员信息,冻结信息表示用户正常，0表示用户已冻结不能登录
 	<table id="myuser" data-toggle="table" data-url="" data-height=""
 		data-click-to-select="true" data-method="get"
 		data-query-params="queryParams" data-toolbar="#toolbar"
@@ -75,7 +75,6 @@
 							align : 'center',
 							formatter : function(value, row, index) {
 								var  temp = '<a href="#" mce_href="#" onclick="sc(\'' + row.uID + '\')">删除</a> '; 
-								 temp += '&nbsp;<a href="#" mce_href="#" onclick="cz(\'' + row.uID + '\')">重置密码</a> '; 
 								 temp += '&nbsp;<a href="#" mce_href="#" onclick="ck(\'' + row.uID + '\')">查看订单</a> '; 
 								 temp += '&nbsp;<a href="#" mce_href="#" onclick="dj(\'' + row.uID + '\')">冻结</a> '; 
 								 temp += '&nbsp;<a href="#" mce_href="#" onclick="jd(\'' + row.uID + '\')">解冻</a> '; 
@@ -84,8 +83,18 @@
 						} ]
 			});
 	
-	
-	
+	function sc(id){
+		window.location.href="<%=path%>/admin/sc?id="+id;
+	}
+	function ck(id){
+		window.location.href="<%=path%>/admin/ck?id="+id;
+	}
+	function dj(id){
+		window.location.href="<%=path%>/admin/dj?id="+id;
+	}
+	function jd(id){
+		window.location.href="<%=path%>/admin/jd?id="+id;
+	}
 	
 	
 	 </script>	

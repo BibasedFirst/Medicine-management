@@ -47,7 +47,7 @@
 	</insert>
 	
 	<delete id="deleteByExample" parameterType="com.manment.bean.User">
-	    delete from user 
+	    delete from user where
 	      <include refid="userByID" />
   	</delete>
   	
@@ -81,4 +81,10 @@
     </set>
     where uID = #{uid,jdbcType=INTEGER}
   </update>
+  
+  	<select id="selectById" parameterType="int">
+	    select *from user where
+	      <include refid="userByID" />
+  	</select>
+  	
 </mapper>

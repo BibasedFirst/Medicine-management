@@ -19,4 +19,11 @@ public interface UsersMapper {
 		public User selectUserByLogin(Map<String, Object> user) throws Exception;
 		
 	    public int updateByPrimaryKey(User record);
+	    
+	    //删除用户
+	    public int deleteByExample(int id);
+	    
+	    //根据用户id查询用户
+	    public User selectById(int id);
+	    
 }
