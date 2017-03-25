@@ -8,13 +8,13 @@
       <arg column="uID" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="uName" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="uPhone" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="Question" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="Answer" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="FreezingTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="uType" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="IsFreezing" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="question" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="answer" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="freezingTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="uType" javaType="java.lang.Integer" jdbcType="BIT" />
+      <arg column="isFreezing" javaType="java.lang.Integer" jdbcType="BIT" />
       <arg column="uPwd" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="NickName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="nickName" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
 	
@@ -33,7 +33,7 @@
        		<include refid="userRow"/>
 		from user
 	</select>
-	 <select id="selectUserByLogin" resultType="com.manment.bean.User" resultMap="UserMap">
+	 <select id="selectUserByLogin" parameterType="java.util.Map" resultType="com.manment.bean.User" resultMap="UserMap">
         select 
        		<include refid="userRow"/>
 	 	from user where uname=(#{uName}) and upwd=(#{uPwd})
@@ -42,7 +42,7 @@
 	     insert into user (
 	     	<include refid="userNoId"/>
 	     ) values (
-	     	#{uName}, #{uPhone}, #{Question}, #{Answer}, #{FreezingTime}, #{uType}, #{IsFreezing}, #{uPwd}, #{NickName}
+	     	#{uName}, #{uPhone}, #{question}, #{answer}, #{freezingTime}, #{uType}, #{isFreezing}, #{uPwd}, #{nickName}
 	     )
 	</insert>
 	
