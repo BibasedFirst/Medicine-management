@@ -12,7 +12,6 @@ import com.manment.bean.Drugs;
 import com.manment.bean.User;
 import com.manment.dao.DrugsDao;
 import com.manment.dao.UserDao;
-import com.manment.dao.UserDao;
 import net.sf.json.JSONArray;
 
 /**
