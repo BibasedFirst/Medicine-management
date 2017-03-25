@@ -67,4 +67,24 @@ public class AdminController {
 		}
 		return "redirect:/admin/listdrugs?page=1";
 	}
+	
+	//根据id查询药品
+	
+	@RequestMapping("updatebyid")
+	public String updatebyid(HttpServletRequest request) throws Exception {
+		int dID = Integer.parseInt(request.getParameter("id"));
+		request.setAttribute("Drugs", DrugsDao.selectDrugsById(dID));
+		return "admin/update";
+	}
+	
+	//更新药品 
+		@RequestMapping("udpate")
+		public String udpate(Drugs drugs) {
+			try {
+				DrugsDao.updateDrugById(drugs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "redirect:/admin/listdrugs?page=1";
+		}
 }

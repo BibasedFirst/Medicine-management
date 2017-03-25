@@ -24,6 +24,8 @@
 	    <li><a href="#">药品管理后台</a></li>
 	    <li ><a href="<%=path%>/admin/index">用户管理</a></li>
 	    <li  class="active">药品管理</li>
+	    <li style="float: right;"><a href="<%=path%>/logout">注销</a></li>
+	    <li style="float: right;"><a href="<%=path%>/admin/myme">个人信息</a></li>
 	</ol>
  
     <table class="table table-hover table-bordered">
@@ -54,7 +56,7 @@
 		       <td><fmt:formatNumber type="number" value="${drugs.price }" pattern="0.00" maxFractionDigits="2"/></td>
 		       <td>${drugs.discount }</td> 
 		       <td><c:if test="${drugs.prescription eq 1 }">是</c:if><c:if test="${drugs.prescription eq 0 }">否</c:if></td> 
-		       <td><a href="<%=path%>/admin/deletedrugsbyid?id=${drugs.dID}">删除</a><a>更新</a></td>
+		       <td><a href="<%=path%>/admin/deletedrugsbyid?id=${drugs.dID}">删除</a><a href="<%=path%>/admin/updatebyid?id=${drugs.dID}">更新</a></td>
 		    </tr>
 		  </c:forEach>
 		   
