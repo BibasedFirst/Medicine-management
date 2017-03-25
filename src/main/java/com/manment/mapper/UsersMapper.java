@@ -22,9 +22,12 @@ public interface UsersMapper {
 	    public int updateByPrimaryKey(User record);
 	    
 	    //删除用户
-	    public int deleteByID(int id);
+	    public int deleteById(int id);
 	    
 	    //根据用户id查询用户
 	    public User selectById(int id);
+	    
+	    //更新用户 
+	    public void updateByPrimaryKeySelective(User user);
 	    
 }

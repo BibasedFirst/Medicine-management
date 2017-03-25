@@ -58,7 +58,7 @@ public class UserDao {
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
 		 try {
-			usersMapper.deleteByID(id);
+			usersMapper.deleteById(id);
 			session.commit();
 			session.close();
 			return true;
@@ -82,5 +82,16 @@ public class UserDao {
 		}
 		return u;
 	}
-	
+	//更新用户 
+    public static void updateByPrimaryKeySelective(User user) throws IOException{
+    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+		 try {
+		    usersMapper.updateByPrimaryKey(user);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+		 
+		}
+    }
 }

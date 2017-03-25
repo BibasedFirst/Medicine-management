@@ -127,6 +127,7 @@ public class AdminController {
 			User u = UserDao.selectById(id);
 			u.setIsFreezing(1);
 			System.out.println("要更新的用户"+u);
+			UserDao.updateByPrimaryKeySelective(u);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -142,6 +143,7 @@ public class AdminController {
 			User u = UserDao.selectById(id);
 			System.out.println("要更新的用户"+u);
 			u.setIsFreezing(0);
+			UserDao.updateByPrimaryKeySelective(u);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -87,4 +87,8 @@
 	      <include refid="userByID" />
   	</select>
   	
+  	<delete id="deleteById" parameterType="int">
+	     delete from user where
+	      <include refid="userByID" />
+  	</delete>
 </mapper>
