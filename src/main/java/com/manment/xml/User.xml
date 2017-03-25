@@ -1,95 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.manment.mapper.UsersMapper">
-<resultMap id="UserMap" type="com.manment.bean.User">
-    <constructor>
-      <arg column="uID" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="uName" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="uPhone" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="question" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="answer" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="freezingTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="uType" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="isFreezing" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="uPwd" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="nickName" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-	
-	 <sql id = "userRow">
-		uID,uName, uPhone, Question, Answer, FreezingTime, uType, IsFreezing, uPwd, NickName
-	</sql>
-	
-	<sql id = "userNoId">
-		uName, uPhone, Question, Answer, FreezingTime,  uType, IsFreezing, uPwd, NickName
-	</sql>
-	<sql id = "userByID">
-			uID = #{uID}
-	</sql>
-	<select id="selectUser" resultType="com.manment.bean.User">
-		select 
-       		<include refid="userRow"/>
-		from user
-	</select>
-	 <select id="selectUserByLogin" parameterType="java.util.Map" resultType="com.manment.bean.User" resultMap="UserMap">
-        select 
-       		<include refid="userRow"/>
-	 	from user where uname=(#{uName}) and upwd=(#{uPwd})
+    <resultMap id="UserMap" type="com.manment.bean.User">
+        <constructor>
+            <arg column="uID" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="uName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="uPhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="question" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="answer" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="freezingTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="uType" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="isFreezing" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="uPwd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="nickName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="userRow">
+    	uID,uName, uPhone, Question, Answer, FreezingTime, uType, IsFreezing, uPwd, NickName
+  	</sql>
+
+    <sql id="userNoId">
+    	uName, uPhone, Question, Answer, FreezingTime,  uType, IsFreezing, uPwd, NickName
+  	</sql>
+    <sql id="userByID">
+    	uID = #{uID}
+  	</sql>
+    <select id="selectUser" resultType="com.manment.bean.User">
+        select
+        <include refid="userRow"/>
+        from user
+    </select>
+    <select id="selectUserByLogin" parameterType="java.util.Map" resultType="com.manment.bean.User" resultMap="UserMap">
+        select
+        <include refid="userRow"/>
+        from user where uname=(#{uName}) and upwd=(#{uPwd})
     </select>
     <insert id="insertUser" parameterType="com.manment.bean.User">
-	     insert into user (
-	     	<include refid="userNoId"/>
-	     ) values (
-	     	#{uName}, #{uPhone}, #{question}, #{answer}, #{freezingTime}, #{uType}, #{isFreezing}, #{uPwd}, #{nickName}
-	     )
-	</insert>
-	
-  	<update id="updateByPrimaryKeySelective" parameterType="com.manment.bean.User" >
-    update user
-    <set >
-      <if test="uphone != null" >
-        uPhone = #{uPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="question != null" >
-        Question = #{question,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null" >
-        Answer = #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="freezingtime != null" >
-        FreezingTime = #{freezingTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="utype != null" >
-        uType = #{uType},
-      </if>
-      <if test="isfreezing != null" >
-        IsFreezing = #{isFreezing},
-      </if>
-      <if test="upwd != null" >
-        uPwd = #{uPwd,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null" >
-        NickName = #{nickName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where uID = #{uID}
-  </update>
-  
-  	<select id="selectById" parameterType="java.lang.Integer" resultMap="UserMap">
-	    select *from user where uID = #{uID}
-  	</select>
-  	
-  	<select id="findByName" parameterType="java.lang.String" resultType="java.lang.String">
-	    select question from user where uName = #{uName,jdbcType=VARCHAR}
-  	</select>
-  	
-  	<select id="findByNameAndAnswer" parameterType="java.lang.String" resultType="java.lang.String">
-	    select answer from user where uName = #{uName} and Answer = #{answer}
-  	</select>
-  
-   <delete id="deleteByID" parameterType="INTEGER">
-    delete from user uID = #{uID}
-  </delete>
+        insert into user (
+        <include refid="userNoId"/>
+        ) values (
+        #{uName}, #{uPhone}, #{question}, #{answer}, #{freezingTime}, #{uType}, #{isFreezing}, #{uPwd}, #{nickName}
+        )
+    </insert>
+
+    <update id="updateByID" parameterType="com.manment.bean.User" statementType="PREPARED">
+        update user
+        <set>
+            <if test="uPhone != null">
+                uPhone = #{uPhone},
+            </if>
+            <if test="question != null">
+                question = #{question},
+            </if>
+            <if test="answer != null">
+                answer = #{answer},
+            </if>
+            <if test="freezingTime != null">
+                freezingTime = #{freezingTime},
+            </if>
+            <if test="uType != null">
+                uType = #{uType},
+            </if>
+            <if test="isFreezing != null">
+                isFreezing = #{isFreezing},
+            </if>
+            <if test="uPwd != null">
+                uPwd = #{uPwd},
+            </if>
+            <if test="nickName != null">
+                nickName = #{nickName},
+            </if>
+        </set>
+        where uID = #{uID}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="UserMap">
+      select *from user where uID = #{uID}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String" resultType="java.lang.String">
+      select question from user where uName = #{uName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByNameAndAnswer" parameterType="java.util.Map" resultType="java.lang.String">
+      select answer from user where uName = #{uName} and answer = #{answer}
+    </select>
+
+    <delete id="deleteByID" parameterType="java.lang.Integer">
+      delete from user where uID = #{uID}
+    </delete>
+    
+    <select id="findByIsFreezing" parameterType="java.lang.Integer" resultMap="UserMap">
+    	select * from user where isFreezing = #{isFreezing}
+    </select>
 </mapper>

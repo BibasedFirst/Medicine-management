@@ -17,7 +17,7 @@ public class User {
 	private String question;
 	private String answer;
 	private Date freezingTime;
-	private Integer uType;
+	private Integer uType;/*0代表管理 1代表进货员2代表会员*/
 	private Integer isFreezing;
 	private String uPwd;
 	private String nickName;

@@ -54,7 +54,7 @@ public class UserDao {
 		}
 	}
 	//通过ID删除用户
-	public static boolean deleteByExample(int id) throws IOException{
+	public static boolean deleteByExample(Integer id) throws IOException{
 		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 		 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
 		 try {
@@ -100,15 +100,15 @@ public class UserDao {
 	    }
 	    
 	  //更新用户 
-	    public static void updateByPrimaryKeySelective(User user) throws IOException{
+	    public static void updateByID(User user) throws IOException{
 	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 			 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
 			 try {
-			    usersMapper.updateByPrimaryKey(user);
+			    usersMapper.updateByID(user);
 				session.commit();
 				session.close();
 			} catch (Exception e) {
-			 
+				e.printStackTrace();
 			}
 	    }
 	    
@@ -125,6 +125,23 @@ public class UserDao {
 			 
 			}
 	    	return answer;
+	    }
+	    
+	   	    
+	    //通过是否冻结查询用户
+	    public static List<User> findByIsFreezing(Integer isFreezing) throws IOException{
+	    	List<User> users = new ArrayList<User>();
+	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+			UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+			try{
+				users = usersMapper.findByIsFreezing(isFreezing);
+				session.commit();
+				session.close();
+				return users;
+			}catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
 	    }
 		
 }

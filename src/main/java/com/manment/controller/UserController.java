@@ -1,6 +1,7 @@
 package com.manment.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /*import javax.security.auth.message.callback.PrivateKeyCallback.Request;*/
@@ -22,6 +23,7 @@ public class UserController {
 	
 	@RequestMapping({"/index","/",""})
 	public String index() throws IOException{
+		System.out.println(UserDao.findByIsFreezing(1).size());
 		return "/user/index";
 	}
 	
@@ -70,7 +72,6 @@ public class UserController {
 		removeSession(request.getSession());
 		User user = null;
 		try{
-			System.err.println(u.getuName()+","+u.getuPwd());
 			if(!(u.getuName().equals(null) && u.getuPwd().equals(null)))
 				user = UserDao.selectUserByLogin(u);
 			if(user != null)
