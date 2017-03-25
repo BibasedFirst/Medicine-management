@@ -86,7 +86,7 @@
     </select>
 
     <select id="findByNameAndAnswer" parameterType="java.util.Map" resultType="java.lang.String">
-      select answer from user where uName = #{uName} and answer = #{answer}
+      select uPwd from user where uName = #{uName} and answer = #{answer}
     </select>
 
     <delete id="deleteByID" parameterType="java.lang.Integer">

@@ -113,18 +113,21 @@ public class UserDao {
 	    }
 	    
 	    //根据用户的帐号和答案来查询用户
-	    public static String findByNameAndAnswer(Map<String, Object> u) throws IOException{
-	    	String answer = null;
+	    public static String findByNameAndAnswer(User u) throws IOException{
+	    	String password = null;
 	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
 			 UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
 			 try {
-				 answer = usersMapper.findByNameAndAnswer(u);
+				 Map<String, Object> value = new HashMap<String, Object>();
+				 value.put("uName", u.getuName());
+				 value.put("answer", u.getAnswer());
+				 password = usersMapper.findByNameAndAnswer(value);
 				session.commit();
 				session.close();
 			} catch (Exception e) {
 			 
 			}
-	    	return answer;
+	    	return password;
 	    }
 	    
 	   	    
