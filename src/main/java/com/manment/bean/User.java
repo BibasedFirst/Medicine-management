@@ -21,7 +21,7 @@ public class User {
 	private Integer isFreezing;
 	private String uPwd;
 	private String nickName;
-
+	
 	public User(Integer uID, String uName, String uPhone, String question, String answer, Date freezingTime,
 			Integer uType, Integer isFreezing, String uPwd, String nickName) {
 		super();
@@ -119,6 +119,19 @@ public class User {
 
 	public void setIsFreezing(Integer isFreezing) {
 		this.isFreezing = isFreezing;
+	}
+	
+	//管理员
+	public static Integer getAdmin(){
+		return 0;
+	}
+	//买方
+	public static Integer getBuyer(){
+		return 1;
+	}
+	//会员
+	public static Integer getUser(){
+		return 2;
 	}
 
 	@Override
