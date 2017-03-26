@@ -17,10 +17,7 @@ public interface UsersMapper {
 		
 		//用户登录
 		public User selectUserByLogin(Map<String, Object> user) throws Exception;
-		
-		//通过 ID修改用户信息
-	    public int updateByPrimaryKey(User record);
-	    
+			    
 	    //删除用户
 	    public int deleteByID(Integer id);
 	       
@@ -33,5 +30,11 @@ public interface UsersMapper {
 	    
 	    //根据用户的帐号和答案来查询用户
 	    public String findByNameAndAnswer(Map<String, Object> user);
+	    
+	    //更新用户 
+	    public void updateByID(User user);
+	    
+	    //通过其它字段查找用户
+	    public List<User> findByIsFreezing(Integer isFreezing);
 	    
 }

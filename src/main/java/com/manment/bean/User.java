@@ -2,6 +2,8 @@ package com.manment.bean;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -17,11 +19,11 @@ public class User {
 	private String question;
 	private String answer;
 	private Date freezingTime;
-	private Integer uType;
+	private Integer uType;/*0代表管理 1代表进货员2代表会员*/
 	private Integer isFreezing;
 	private String uPwd;
 	private String nickName;
-
+	
 	public User(Integer uID, String uName, String uPhone, String question, String answer, Date freezingTime,
 			Integer uType, Integer isFreezing, String uPwd, String nickName) {
 		super();
@@ -80,7 +82,8 @@ public class User {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Shanghai") 
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	public Date getFreezingTime() {
 		return freezingTime;
 	}
@@ -119,6 +122,19 @@ public class User {
 
 	public void setIsFreezing(Integer isFreezing) {
 		this.isFreezing = isFreezing;
+	}
+	
+	//管理员
+	public static Integer getAdmin(){
+		return 0;
+	}
+	//买方
+	public static Integer getBuyer(){
+		return 1;
+	}
+	//会员
+	public static Integer getUser(){
+		return 2;
 	}
 
 	@Override

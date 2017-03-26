@@ -21,7 +21,7 @@
  <div class="container">
  
    	 <ol class="breadcrumb">
-	    <li><a href="#">药品管理后台</a></li>
+	    <li><a href="<%=path %>/admin/index">药品管理后台</a></li>
 	    <li ><a href="<%=path%>/admin/index">用户管理</a></li>
 	    <li  class="active"><a href="<%=path%>/admin/listdrugs?page=1">药品管理</a></li>
 	    <li style="float: right;"><a href="<%=path%>/logout">注销</a></li>
@@ -89,7 +89,9 @@
     
 
 </div>	
- 
+ <div style="text-align:center;">
+        <p>药品管理系统</p>
+  </div> 
  
 
 </body>

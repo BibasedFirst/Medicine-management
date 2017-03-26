@@ -23,13 +23,16 @@
  <div class="container">
  
    	<ol class="breadcrumb">
-	    <li><a href="#">药品管理后台</a></li>
+	    <li><a href="<%=path %>/admin/index">药品管理后台</a></li>
 	    <li  class="active">用户管理</li>
 	    <li ><a href="<%=path%>/admin/listdrugs?page=1">药品管理</a></li>
+	    <li ><a href="#" onclick="fwq()">用户分布</a></li>
+	    <li style="float: right;"><a href="<%=path%>/logout">注销</a></li>
+	    <li style="float: right;"><a href="<%=path%>/admin/myme">个人信息</a></li>
 	</ol>
  
 <!--  用户列表 -->
-<div class="container" style=" padding-top: 5%">
+<div class="container" id="d1" style=" padding-top: 5%">
 
 		    	会员信息,冻结信息表示用户正常，0表示用户已冻结不能登录
 	<table id="myuser" data-toggle="table" data-url="" data-height=""
@@ -41,10 +44,20 @@
 
 </div>
  
+	             <iframe id="mainFrame" name="mainFrame" scrolling="no" src=""
+                  frameborder="0" style="padding: 0px; width: 100%; "></iframe>
  </div>
  
+ <div style="text-align:center;">
+        <p>药品管理系统</p>
+  </div>
+ 
+ 
  <script type="text/javascript">
-
+ $(function(){
+	   startInit('mainFrame', 560);
+ });
+  
 	$('#myuser').bootstrapTable(
 			{
 				data: <%=request.getAttribute("user")%>,
@@ -62,13 +75,37 @@
 							title : '电话'
 						},
 						{
-							field : 'isFreezing',
-							title : '是否冻结'
-						},
-						{
 							field : 'nickName',
 							title : '昵称'
 						},
+						{
+							title : '是否冻结',
+							field : 'temp',
+							align : 'center',
+							formatter : function(value, row, index) {
+								var  temp = "";
+								if(row.isFreezing=="1"){
+									temp="正常";
+								}else{
+									temp="冻结";
+								}
+								return temp;
+							}
+						} ,
+						{
+							title : '冻结截止时间',
+							field : 'temp',
+							align : 'center',
+							formatter : function(value, row, index) {
+								var  temp = "";
+								if(row.isFreezing=="1"){
+									temp="";
+								}else{
+									temp=row.freezingTime;
+								}
+								return temp;
+							}
+						} ,
 						{
 							title : '操作',
 							field : 'temp',
@@ -96,6 +133,57 @@
 		window.location.href="<%=path%>/admin/jd?id="+id;
 	}
 	
+	   var browserVersion = window.navigator.userAgent.toUpperCase();
+	   var isOpera = false, isFireFox = false, isChrome = false, isSafari = false, isIE = false;
+	   var maxHeight = 0;
+	    function reinitIframe(iframeId, minHeight) {
+	       try {
+	         var iframe = document.getElementById(iframeId);
+	          var bHeight = 0;
+	          if (isChrome === false && isSafari === false)
+	               bHeight = iframe.contentWindow.document.body.scrollHeight;
+	           var dHeight = 0;
+	           if (isFireFox === true)
+	               dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+	           else if (isIE === false && isOpera === false)
+	               dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+	           else if (isIE === true && !-[1, ] === false) {
+	           } //ie9+
+	           else
+	              bHeight += 3;
+	           var height = Math.max(bHeight, dHeight);
+	           if (height < minHeight){
+	               height = minHeight;
+	           }
+	               
+	           iframe.style.minHeight = height + "px";
+	       } catch (ex) {
+	       }
+	   }
+	   function startInit(iframeId, maxHeight) {
+	       isOpera = browserVersion.indexOf("OPERA") > -1 ? true : false;
+	       isFireFox = browserVersion.indexOf("FIREFOX") > -1 ? true : false;
+	      isChrome = browserVersion.indexOf("CHROME") > -1 ? true : false;
+	       isSafari = browserVersion.indexOf("SAFARI") > -1 ? true : false;
+	      if (!!window.ActiveXObject || "ActiveXObject" in window)
+	           isIE = true;
+	       window.setInterval("reinitIframe('" + iframeId + "'," + maxHeight + ")", 100);
+	   }
+
+	   function iFrameHeight() {
+	          var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;   
+	          if(ifm != null && subWeb != null) {
+	             ifm.height = subWeb.body.scrollHeight;
+	             ifm.width = subWeb.body.scrollWidth;
+	           }   
+	   }   
+		
+
+		
+		function fwq(){
+			 $("#d1").hide();
+			 $('#mainFrame').attr("src","<%=path%>/admin/list");  
+		}
 	
 	 </script>	
 </body>

@@ -1,6 +1,7 @@
 package com.manment.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /*import javax.security.auth.message.callback.PrivateKeyCallback.Request;*/
@@ -45,6 +46,26 @@ public class UserController {
 		return "/user/forgetPassword";
 	}
 	
+	@RequestMapping({"/forgetOver"})
+	public String forgetOver(User u,HttpServletRequest request,Model model){
+		String nPwd = null;
+		try{
+			System.out.println(u.getuName()+","+u.getAnswer());
+			nPwd = UserDao.findByNameAndAnswer(u);
+			if(nPwd != null){
+				requestInfo(model, "悄悄告诉你，你的密码是："+nPwd);
+			}else{
+				model.addAttribute("uName", u.getuName());
+				model.addAttribute("question", u.getQuestion());
+				requestInfo(model, "答案不对！╮(╯▽╰)╭");
+				return "/user/forgetPassword";
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "/user/index";
+	}
+	
 	
 	@RequestMapping({"/register"})
 	public String register(User u,HttpServletRequest request,Model model) throws Exception{
@@ -70,15 +91,15 @@ public class UserController {
 		removeSession(request.getSession());
 		User user = null;
 		try{
-			System.err.println(u.getuName()+","+u.getuPwd());
-			if(!(u.getuName().equals(null) && u.getuPwd().equals(null)))
+			if(u!=null || !(u.getuName().equals(null) && u.getuPwd().equals(null))){
 				user = UserDao.selectUserByLogin(u);
-			if(user != null)
-				saveSession(request.getSession(), UserDao.selectUserByLogin(u));
-			else{
-				requestInfo(model, "帐号或密码错误！");
-				return "/user/index";
-			}
+				if(user != null)
+					saveSession(request.getSession(), UserDao.selectUserByLogin(u));
+				else{
+					requestInfo(model, "帐号或密码错误！");
+					return "/user/index";
+				}
+			} else return "/user/index";
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
