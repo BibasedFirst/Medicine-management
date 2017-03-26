@@ -21,7 +21,7 @@
  <div class="container">
  
    	 <ol class="breadcrumb">
-	    <li><a href="<%=path %>/admin/index">进货员药品管理后台</a></li>
+	    <li><a href="<%=path %>/jhy/index">进货员药品管理后台</a></li>
 	    <li  ><a href="<%=path%>/jhy/index?page=1">药品管理</a></li>
 	    <li style="float: right;"><a href="<%=path%>/logout">注销</a></li>
 	    <li style="float: right;"><a href="<%=path%>/jhy/myme">个人信息</a></li>
