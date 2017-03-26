@@ -125,7 +125,7 @@ public class AdminController {
 		System.out.println(id);
 		try {
 			User u = UserDao.selectById(id);
-			u.setIsFreezing(1);
+			u.setIsFreezing(0);
 			System.out.println("要更新的用户"+u);
 			UserDao.updateByID(u);
 		} catch (Exception e) {
@@ -142,11 +142,29 @@ public class AdminController {
 		try {
 			User u = UserDao.selectById(id);
 			System.out.println("要更新的用户"+u);
-			u.setIsFreezing(0);
+			u.setIsFreezing(1);
 			UserDao.updateByID(u);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/admin/index";
 	}
+	//饼状图
+	@RequestMapping("list")
+	public String list(HttpServletRequest request) {
+		int sum = 0, dj = 0, fdj = 0;
+		try {
+			sum = UserDao.selectUser().size();
+			dj = UserDao.findByIsFreezing(0).size();
+			fdj = sum - dj;
+			request.setAttribute("sum", sum);
+			request.setAttribute("dj", dj);
+			request.setAttribute("fdj", fdj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "admin/list";
+	}
+	
+	
 }

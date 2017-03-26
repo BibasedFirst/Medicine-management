@@ -99,6 +99,12 @@
     
     <select id = "findByOther" parameterType="java.util.Map" resultMap="UserMap">
     	select * from user where 1=1
+    	<if test="uID != null and uID != ''">
+    		and uID = #{uID}
+    	</if>
+    	<if test="uName !=null and uName != ''">
+    		and uName = #{uName}
+    	</if>
     	<if test="uPhone != null and uPhone != ''">
            	and uPhone = #{uPhone}
         </if>

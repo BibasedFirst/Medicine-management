@@ -26,6 +26,9 @@ public class UserController {
 	
 	@RequestMapping({"/index","/",""})
 	public String index() throws IOException{
+		User u = new User();
+		u.setuPhone("1");
+		System.out.println(UserDao.findByOther(u));
 		return "/user/index";
 	}
 	
