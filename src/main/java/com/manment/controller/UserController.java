@@ -81,7 +81,7 @@ public class UserController {
 	@RequestMapping( value ={"/register"},method= RequestMethod.POST)
 	public String register(User u,HttpServletRequest request,Model model) throws Exception{
 		boolean user = true;
-		u.setIsFreezing(0);
+		u.setIsFreezing(User.getUser());
 		u.setuType(User.getUser());
 		try{
 			if(!UserDao.insert(u)){
