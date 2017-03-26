@@ -25,5 +25,7 @@ public interface DrugsMapper {
 	//分页查询药品
 	public List<Drugs> selectDrugsByPage(int begin) throws Exception;
 	
+	public List<Drugs> selectDrugsBykc() throws Exception;
+	
 }
 

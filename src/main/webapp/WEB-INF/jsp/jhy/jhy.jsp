@@ -21,11 +21,10 @@
  <div class="container">
  
    	 <ol class="breadcrumb">
-	    <li><a href="<%=path %>/admin/index">药品管理后台</a></li>
-	    <li ><a href="<%=path%>/admin/index">用户管理</a></li>
+	    <li><a href="<%=path %>/jhy/index?page=1">进货员药品管理后台</a></li>
 	    <li  class="active">药品管理</li>
 	    <li style="float: right;"><a href="<%=path%>/logout">注销</a></li>
-	    <li style="float: right;"><a href="<%=path%>/admin/myme">个人信息</a></li>
+	    <li style="float: right;"><a href="<%=path%>/jhy/myme">个人信息</a></li>
 	</ol>
  
     <table class="table table-hover table-bordered">
@@ -58,7 +57,9 @@
 		       <td>${drugs.discount }</td> 
 		       <td><c:if test="${drugs.prescription eq 1 }">是</c:if><c:if test="${drugs.prescription eq 0 }">否</c:if></td> 
 		       <td><c:if test="${drugs.dNumber < 6 }"><font color="red">缺货</font></c:if><c:if test="${drugs.dNumber > 5 }"><font color="green">库存充足</font></c:if></td> 
-		       <td><a href="<%=path%>/admin/deletedrugsbyid?id=${drugs.dID}">删除</a><a href="<%=path%>/admin/updatebyid?id=${drugs.dID}">更新</a></td>
+		       <td><a href="<%=path%>/jhy/deletedrugsbyid?id=${drugs.dID}">删除</a><a href="<%=path%>/jhy/updatebyid?id=${drugs.dID}">更新</a>
+		         <c:if test="${drugs.dNumber < 6 }"><a href="<%=path%>/jhy/updatebyid?id=${drugs.dID}">进货</a></c:if>
+		       </td>
 		    </tr>
 		  </c:forEach>
 		   
@@ -67,7 +68,7 @@
 	             总共 <font color="red"> ${sum}</font> 条记录   &nbsp; &nbsp; &nbsp;当前页 <font color="red"> ${page}</font>   &nbsp; &nbsp; &nbsp;<span style="padding-right: 20%;float: right;" id="page"> </span>
        <hr> 
  <div style="width:300px" >
-    <form class="bs-example bs-example-form" role="form" action="<%=path %>/admin/postyp" method="post">
+    <form class="bs-example bs-example-form" role="form" action="<%=path %>/jhy/postyp" method="post">
         <div class="input-group input-group-sm">
             <span class="input-group-addon">药名</span>
             <input type="text" class="form-control" name="dName" placeholder="药名">

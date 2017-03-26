@@ -37,4 +37,8 @@ public interface UsersMapper {
 	    //通过其它字段查找用户
 	    public List<User> findByIsFreezing(Integer isFreezing);
 	    
+ 
+	    //按照字段查询用户
+	    public List<User> findByOther(Map<String, Object> map);
+	    
 }

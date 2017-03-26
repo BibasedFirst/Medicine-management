@@ -131,7 +131,7 @@ public class UserDao {
 	    }
 	    
 	   	    
-	    //通过是否冻结查询用户
+	  //通过是否冻结查询用户
 	    public static List<User> findByIsFreezing(Integer isFreezing) throws IOException{
 	    	List<User> users = new ArrayList<User>();
 	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
@@ -146,5 +146,43 @@ public class UserDao {
 				return null;
 			}
 	    }
+	    
+	    //通过其它字段查询用户
+	    public static List<User> findByOther(User u) throws IOException{
+	    	List<User> users = new ArrayList<User>();
+	    	SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+			UsersMapper  usersMapper = session.getMapper(UsersMapper.class);
+			Map<String, Object> userMap = new HashMap<String, Object>();
+			try{
+				if(u.getAnswer() != null)
+					userMap.put("answer", u.getAnswer());
+				if(u.getFreezingTime() != null)
+					userMap.put("freezingTime", u.getFreezingTime());
+				if(u.getIsFreezing() != null)
+					userMap.put("isFreezing",u.getIsFreezing());
+				if(u.getNickName() != null)
+					userMap.put("nickName",u.getNickName());
+				if(u.getQuestion() != null)
+					userMap.put("question",u.getQuestion());
+				if(u.getuID() != null)
+					userMap.put("uID",u.getuID());
+				if(u.getuName() != null)
+					userMap.put("uName",u.getuName());
+				if(u.getuPhone() != null)
+					userMap.put("uPhone",u.getuPhone());
+				if(u.getuPwd() != null)
+					userMap.put("uPwd",u.getuPwd());
+				if(u.getuType() != null)
+					userMap.put("uType",u.getuType());
+				users = usersMapper.findByOther(userMap);
+				session.commit();
+				session.close();
+				return users;
+			}catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
+	    }
+	    
 		
 }

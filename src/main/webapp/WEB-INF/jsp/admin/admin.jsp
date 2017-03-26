@@ -48,6 +48,33 @@
                   frameborder="0" style="padding: 0px; width: 100%; "></iframe>
  </div>
  
+ 
+  	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					设置冻结时间
+				</h4>
+			</div>
+			<div class="modal-body">
+				冻结时间:   <input type="date" class="form-control" name="productionDate" id="djsj" >
+				<input type="hidden" class="form-control" name="productionDate" id="djid" >
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" onclick="sz()">
+					提交更新
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+ 
  <div style="text-align:center;">
         <p>药品管理系统</p>
   </div>
@@ -85,9 +112,25 @@
 							formatter : function(value, row, index) {
 								var  temp = "";
 								if(row.isFreezing=="1"){
-									temp="正常";
+									temp="<font color=\"green\">正常</font>";
 								}else{
-									temp="冻结";
+									temp="<font color=\"red\">冻结</font>";
+								}
+								return temp;
+							}
+						},
+						{
+							title : '角色',
+							field : 'temp',
+							align : 'center',
+							formatter : function(value, row, index) {
+								var  temp = "";
+								if(row.uType=="0"){
+									temp="管理员";
+								}else if(row.uType=="1"){
+									temp="进货员";
+								}else{
+									temp="会员";
 								}
 								return temp;
 							}
@@ -99,7 +142,7 @@
 							formatter : function(value, row, index) {
 								var  temp = "";
 								if(row.isFreezing=="1"){
-									temp="";
+									temp="冻结时间失效";
 								}else{
 									temp=row.freezingTime;
 								}
@@ -112,7 +155,7 @@
 							align : 'center',
 							formatter : function(value, row, index) {
 								var  temp = '<a href="#" mce_href="#" onclick="sc(\'' + row.uID + '\')">删除</a> '; 
-								 temp += '&nbsp;<a href="#" mce_href="#" onclick="ck(\'' + row.uID + '\')">查看订单</a> '; 
+								 temp += '&nbsp;<a href="#" mce_href="#" onclick="ck(\'' + row.uID + '\')">设置冻结时间</a> '; 
 								 temp += '&nbsp;<a href="#" mce_href="#" onclick="dj(\'' + row.uID + '\')">冻结</a> '; 
 								 temp += '&nbsp;<a href="#" mce_href="#" onclick="jd(\'' + row.uID + '\')">解冻</a> '; 
 								return temp;
@@ -185,6 +228,20 @@
 			 $('#mainFrame').attr("src","<%=path%>/admin/list");  
 		}
 	
+		function ck(id){
+			 $("#djid").val(id);
+			//弹出模糊框
+		  	  $('#myModal').modal({
+		  		keyboard: true
+		  	  });
+			 
+		}
+		
+		function sz(){
+			  var id = $("#djid").val();
+			  var date = $("#djsj").val();
+			  window.location.href="<%=path%>/admin/adddj?id="+id+"&date="+date;
+		}
 	 </script>	
 </body>
 </html>

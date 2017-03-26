@@ -28,4 +28,12 @@
     <select id="selectDrugsByPage" parameterType="int" resultType="com.manment.bean.Drugs">
           select *from drugs    limit #{begin},20 
     </select>
+    
+     <!-- <select id="selectDrugsBykc" parameterType="int"  resultType="com.manment.bean.Drugs">
+          select *from drugs    where dNumber < 6  
+    </select>
+    
+     <select id="selectDrugsBykcsum" parameterType="int"  resultType="com.manment.bean.Drugs">
+          select *from drugs    where dNumber < 6 
+    </select> -->
 </mapper>

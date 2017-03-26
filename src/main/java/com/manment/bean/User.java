@@ -20,7 +20,7 @@ public class User {
 	private String answer;
 	private Date freezingTime;
 	private Integer uType;/*0代表管理 1代表进货员2代表会员*/
-	private Integer isFreezing;
+	private Integer isFreezing; /*0假1真*/
 	private String uPwd;
 	private String nickName;
 	

@@ -76,5 +76,14 @@ public class DrugsDao {
 		 session.close();
 		 return true; 
 	}
+	
+	public List<Drugs> selectDrugsBykc() throws Exception{
+		 List<Drugs> list = new ArrayList<Drugs>();
+		 SqlSession session = SqlSessionUtil.getSqlSessionFactory().openSession();
+		 DrugsMapper  drugs = session.getMapper(DrugsMapper.class);
+		 list = drugs.selectDrugsBykc();
+		 session.close();
+		 return list; 
+	}
 }
 
