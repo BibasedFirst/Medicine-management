@@ -9,7 +9,7 @@
 <HTML>
 
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
-<TITLE>登录页面</TITLE>
+<TITLE>忘记密码</TITLE>
 <script type="text/javascript" src="<%=path%>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/user/index.js"></script>
 <link rel="stylesheet" href="<%=path%>/css/user/index.css">

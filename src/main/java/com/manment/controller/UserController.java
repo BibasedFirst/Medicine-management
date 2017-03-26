@@ -22,19 +22,45 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
+
 import com.manment.bean.User;
 import com.manment.dao.UserDao;
 
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
+
 	
 	@RequestMapping({"/index","/",""})
 	public String index() throws IOException{
 		return "/user/index";
+	}
+	
+	@RequestMapping({"update"})
+	public String update(String request,Model model) {
+		if(request != null)
+			requestInfo(model, request);
+		return "/user/update";
+	}
+	
+	@RequestMapping({"updateUser"})
+	public String toupdate(User u,HttpServletRequest request,Model model) throws Exception{
+			if(u.getuName() != null){
+				User user = UserDao.selectUserByLogin(u);
+				if(user != null){
+					u.setuID(user.getuID());
+					UserDao.updateByID(u);
+					saveSession(request.getSession(), UserDao.selectById(user.getuID()));
+					model.addAttribute("request", "修改成功");
+				}else{
+					model.addAttribute("request", "修改失败");
+				}
+			}
+		return "redirect:/user/update?";
 	}
 	
 	@RequestMapping( value ={"/forget"},method= RequestMethod.POST)
@@ -59,6 +85,7 @@ public class UserController {
 	
 	@RequestMapping( value ={"/forgetOver"},method= RequestMethod.POST)
 	public String forgetOver(User u,HttpServletRequest request,Model model){
+		System.out.println("/forgetOver");
 		String nPwd = null;
 		try{
 			System.out.println(u.getuName()+","+u.getAnswer());
@@ -83,20 +110,27 @@ public class UserController {
 		boolean user = true;
 		u.setIsFreezing(User.getUser());
 		u.setuType(User.getUser());
+		String returnVal;
 		try{
-			if(!UserDao.insert(u)){
-				requestInfo(model, "注册失败！请重新注册！");
-				user = false;
+			User tempUser = new User();
+			tempUser.setuName(u.getuName());
+			if(UserDao.findByOther(tempUser) == null){
+				if(!UserDao.insert(u)){
+					requestInfo(model, "注册失败！请重新注册！");
+					user = false;
+					return "/user/index";
+				}
+			}else{
+				requestInfo(model,"这个帐号被占用了！");
+				return "/user/index";
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			requestSqlError(model);
-		}
-		if(user)
-			saveSession(request.getSession(), UserDao.selectUserByLogin(u));
-		
-		return user?"redirect:/admin/index":"/user/index";
+		}		
+		requestInfo(model, user?"注册成功！快登录！":"很遗憾，系统不让你加入我们！");
+		return "/user/index";
 	}
 	
 	@RequestMapping(value = "/sign",method= RequestMethod.POST)
@@ -121,10 +155,17 @@ public class UserController {
 							UserDao.updateByID(user);
 						}
 					}
-					saveSession(request.getSession(), UserDao.selectUserByLogin(u));
+					saveSession(request.getSession(), user);
 					removeCookie(response,"uName");
 					removeCookie(response, "number");
-					return "redirect:/admin/index";
+					switch(user.getuType()){
+						case 0:
+							return "redirect:/admin/index";
+						case 1:
+							return "redirect:/jhy/index?page=1";
+						default:
+							return "/user/update";
+					}
 				}else{
 							if(uName == null){
 								initCookie(response,u.getuName());
@@ -205,6 +246,8 @@ public class UserController {
 		response.addCookie(nameCookie);
 		
 	}
+	
+	
 	
 }
 
