@@ -1,24 +1,32 @@
 package com.manment.controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.Cookie;
 /*import javax.security.auth.message.callback.PrivateKeyCallback.Request;*/
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sound.midi.MidiDevice.Info;
 import javax.websocket.Session;
 
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
 import com.manment.bean.User;
 import com.manment.dao.UserDao;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/user")
@@ -26,13 +34,8 @@ public class UserController {
 	
 	@RequestMapping({"/index","/",""})
 	public String index() throws IOException{
-		User u = new User();
-		u.setuPhone("1");
-		System.out.println(UserDao.findByOther(u));
 		return "/user/index";
 	}
-	
-	 
 	
 	@RequestMapping( value ={"/forget"},method= RequestMethod.POST)
 	public String forget(User u,HttpServletRequest request,Model model){
@@ -93,11 +96,14 @@ public class UserController {
 		if(user)
 			saveSession(request.getSession(), UserDao.selectUserByLogin(u));
 		
-		return user?"index":"/user/index";
+		return user?"redirect:/admin/index":"/user/index";
 	}
 	
 	@RequestMapping(value = "/sign",method= RequestMethod.POST)
-	public String sign(User u,HttpServletRequest request,Model model) throws Exception{
+	public String sign(User u,HttpServletRequest request,Model model,
+			@CookieValue(value = "uName",required  = false)String uName,
+			@CookieValue(value = "number",required  = false)Integer number
+			,HttpServletResponse response) throws Exception{
 		removeSession(request.getSession());
 		String pageOne = "/user/index";
 		User user = null;
@@ -105,19 +111,39 @@ public class UserController {
 			if(u!=null || !(u.getuName().equals(null) && u.getuPwd().equals(null))){
 				user = UserDao.selectUserByLogin(u);
 				if(user != null){
-					if(user.getIsFreezing()!=0 && user.getIsFreezing() != null){
+					if(user.getIsFreezing()!=1 && user.getIsFreezing() != null){
 						if(user.getFreezingTime()!=null){
 							if(!compareTime(user.getFreezingTime())){
-								requestInfo(model, "你是坏人，已经被我冻结！");
+								requestInfo(model, "你是坏人，已经被我冻结！距离你下次成功登录还有："+(60-compare(user.getFreezingTime()))+"分钟");
 								return pageOne;
 							}
-							user.setIsFreezing(0);
+							user.setIsFreezing(1);
 							UserDao.updateByID(user);
 						}
 					}
 					saveSession(request.getSession(), UserDao.selectUserByLogin(u));
-					return "/index";
+					removeCookie(response,"uName");
+					removeCookie(response, "number");
+					return "redirect:/admin/index";
 				}else{
+							if(uName == null){
+								initCookie(response,u.getuName());
+							}else{
+								if(number>=2){
+									User toFreezing = new User();
+									toFreezing.setuName(u.getuName());
+									toFreezing = UserDao.findByOther(toFreezing).get(0);
+									toFreezing.setFreezingTime(new Date());
+									toFreezing.setIsFreezing(1);
+									UserDao.updateByID(toFreezing);
+									requestInfo(model, "你是坏人吧！~\\(≧▽≦)/~啦啦啦,你被我冻结了:"+(60-compare(toFreezing.getFreezingTime()))+"分钟");
+									return pageOne;
+								}else{
+									String numberValue = String.valueOf(number+1);
+									Cookie numberCookie = new Cookie("number", numberValue);
+									response.addCookie(numberCookie);
+								}
+							}
 							requestInfo(model, "帐号或密码错误！");
 							return pageOne;
 						}
@@ -152,13 +178,33 @@ public class UserController {
 	}
 		
 	private void requestSqlError(Model model) {
-		model.addAttribute("request", "alert('哎呀！数据库出问题了！-_-。sorry！-_-。sorry！！')");
+		model.addAttribute("request", "alert('哎呀！程序出问题了！-_-。sorry！-_-。sorry！！')");
 	}
 	
 	private boolean compareTime(Date freezingTime) throws ParseException{
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		long time = (format.parse(format.format(new Date())).getTime() - freezingTime.getTime())/(60*1000);
-		return time>60?true:false;
+		return compare(freezingTime)>60?true:false;
 	}
+	
+	private long compare(Date freezingTime) throws ParseException{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return (format.parse(format.format(new Date())).getTime() - format.parse(format.format(freezingTime)).getTime())/(60*1000);
+	}
+	
+	private void removeCookie(HttpServletResponse response,String cookieName){
+		Cookie cookie = new Cookie(cookieName, null);
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+	}
+	
+	private void initCookie(HttpServletResponse response,String uName){
+		Cookie nameCookie = new Cookie("uName", uName);
+		nameCookie.setMaxAge(60*60);
+		Cookie numberCookie = new Cookie("number", "0");
+		numberCookie.setMaxAge(60*60);
+		response.addCookie(numberCookie);
+		response.addCookie(nameCookie);
+		
+	}
+	
 }
 
