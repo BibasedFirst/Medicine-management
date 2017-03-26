@@ -96,4 +96,32 @@
     <select id="findByIsFreezing" parameterType="java.lang.Integer" resultMap="UserMap">
     	select * from user where isFreezing = #{isFreezing}
     </select>
+    
+    <select id = "findByOther" parameterType="java.util.Map" resultMap="UserMap">
+    	select * from user where 1=1
+    	<if test="uPhone != null and uPhone != ''">
+           	and uPhone = #{uPhone}
+        </if>
+        <if test="question != null and question != ''">
+      		and question = #{question}
+        </if>
+        <if test="answer != null and answer != ''">
+       		and answer = #{answer}
+        </if>
+        <if test="freezingTime != null and freezingTime != ''">
+           and freezingTime = #{freezingTime}
+        </if>
+        <if test="uType != null and uType != ''">
+           and uType = #{uType}
+        </if>
+        <if test="isFreezing != null and isFreezing != ''">
+           and isFreezing = #{isFreezing}
+        </if>
+        <if test="uPwd != null and uPwd != ''">
+           and uPwd = #{uPwd}
+        </if>
+        <if test="nickName != null and nickName != ''">
+           and nickName = #{nickName}
+        </if>
+    </select>
 </mapper>

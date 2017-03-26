@@ -1,6 +1,8 @@
 package com.manment.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import javax.websocket.Session;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
 import com.manment.bean.User;
 import com.manment.dao.UserDao;
@@ -26,7 +29,7 @@ public class UserController {
 		return "/user/index";
 	}
 	
-	@RequestMapping({"/forget"})
+	@RequestMapping( value ={"/forget"},method= RequestMethod.POST)
 	public String forget(User u,HttpServletRequest request,Model model){
 		String question = null;
 		try {
@@ -46,7 +49,7 @@ public class UserController {
 		return "/user/forgetPassword";
 	}
 	
-	@RequestMapping({"/forgetOver"})
+	@RequestMapping( value ={"/forgetOver"},method= RequestMethod.POST)
 	public String forgetOver(User u,HttpServletRequest request,Model model){
 		String nPwd = null;
 		try{
@@ -67,9 +70,11 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping({"/register"})
+	@RequestMapping( value ={"/register"},method= RequestMethod.POST)
 	public String register(User u,HttpServletRequest request,Model model) throws Exception{
 		boolean user = true;
+		u.setIsFreezing(0);
+		u.setuType(User.getUser());
 		try{
 			if(!UserDao.insert(u)){
 				requestInfo(model, "注册失败！请重新注册！");
@@ -86,26 +91,37 @@ public class UserController {
 		return user?"index":"/user/index";
 	}
 	
-	@RequestMapping("/sign")
+	@RequestMapping(value = "/sign",method= RequestMethod.POST)
 	public String sign(User u,HttpServletRequest request,Model model) throws Exception{
 		removeSession(request.getSession());
+		String pageOne = "/user/index";
 		User user = null;
 		try{
 			if(u!=null || !(u.getuName().equals(null) && u.getuPwd().equals(null))){
 				user = UserDao.selectUserByLogin(u);
-				if(user != null)
+				if(user != null){
+					if(user.getIsFreezing()!=0 && user.getIsFreezing() != null){
+						if(user.getFreezingTime()!=null){
+							if(!compareTime(user.getFreezingTime())){
+								requestInfo(model, "你是坏人，已经被我冻结！");
+								return pageOne;
+							}
+							user.setIsFreezing(0);
+							UserDao.updateByID(user);
+						}
+					}
 					saveSession(request.getSession(), UserDao.selectUserByLogin(u));
-				else{
-					requestInfo(model, "帐号或密码错误！");
-					return "/user/index";
-				}
-			} else return "/user/index";
+					return "/index";
+				}else{
+							requestInfo(model, "帐号或密码错误！");
+							return pageOne;
+						}
+			} else return pageOne;
 		}catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			requestSqlError(model);
+			return pageOne;
 		}
-		return "index";
 	}
 	
 		
@@ -132,6 +148,12 @@ public class UserController {
 		
 	private void requestSqlError(Model model) {
 		model.addAttribute("request", "alert('哎呀！数据库出问题了！-_-。sorry！-_-。sorry！！')");
+	}
+	
+	private boolean compareTime(Date freezingTime) throws ParseException{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long time = (format.parse(format.format(new Date())).getTime() - freezingTime.getTime())/(60*1000);
+		return time>60?true:false;
 	}
 }
 
